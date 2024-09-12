@@ -1,0 +1,103 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        table th, table td {
+            vertical-align: middle !important;
+        }
+        .table-actions a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Logout Button -->
+    <div class="text-right mb-3">
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    <hr>
+
+    <!-- Header -->
+    <div class="text-center">
+        <h1>Student Data</h1>
+    </div>
+
+    <!-- Student Form -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="/admin/students/save/" th:object="${Student}">
+                <div class="form-group">
+                    <input type="text" name="firstName" class="form-control" placeholder="Enter First Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="lastName" class="form-control" placeholder="Enter Last Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="fatherName" class="form-control" placeholder="Enter Father Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="motherName" class="form-control" placeholder="Enter Mother Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="seatNo" class="form-control" placeholder="Enter SeatNo">
+                </div>
+                <div class="form-group text-center">
+                    <input type="reset" class="btn btn-secondary" value="Clear">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Students Table -->
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Seat No</th>
+                        <th>Full Name</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="stud: ${list}">
+                        <td th:text="${stud.id}" class="text-right"></td>
+                        <td th:text="${stud.seatNo}" class="text-center"></td>
+                        <td th:text="${stud.lastName + ' ' + stud.firstName + ' ' + stud.fatherName + ' ' + stud.motherName}"></td>
+                        <td class="table-actions text-center">
+                            <a th:href="@{/admin/students/delete/{id}/(id=${stud.id})}" class="btn btn-danger btn-sm">Delete</a>
+                            <a th:href="@{/admin/marksheets/{idStud}/(idStud=${stud.id})}" class="btn btn-primary btn-sm">Marksheet</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marksheet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var totalMarks = calculateColumn(4);
+            var obtainedMarks = calculateColumn(5);
+            var percentage = 100 * obtainedMarks / totalMarks;
+
+            $('#lblTotal').text('Marks = ' + obtainedMarks + '/' + totalMarks);
+            $('#lblPercentage').text('Percentage = ' + percentage.toFixed(2) + '%');
+        });
+
+        function calculateColumn(index) {
+            var total = 0;
+            $('#marksheetTable tr').each(function () {
+                var value = parseInt($('td', this).eq(index).text());
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+            return total;
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-4">
+
+        <!-- Student Info -->
+        <div class="row mb-4">
+            <div class="col-md-6 offset-md-3">
+                <table class="table table-borderless">
+                    <tr>
+                        <td class="text-right"><h5>Name of Student:</h5></td>
+                        <td><h5 th:text="${student.lastName + ' ' + student.firstName + ' ' + student.motherName + ' ' + student.fatherName}">Full Name</h5></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><h5>Seat No:</h5></td>
+                        <td><h5 th:text="${student.seatNo}">123456</h5></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Marksheet Table -->
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <table id="marksheetTable" class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Min Marks</th>
+                            <th>Max Marks</th>
+                            <th>Obtained Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="marksheetDet, iterStatus : ${listMarksheetDet}">
+                            <td class="text-right" th:text="${iterStatus.index + 1}"></td>
+                            <td th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).code}"></td>
+                            <td th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).name}"></td>
+                            <td class="text-right" th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).minMarks}"></td>
+                            <td class="text-right" th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).maxMarks}"></td>
+                            <td class="text-right" th:text="${marksheetDet.marks}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Marks and Percentage -->
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h3 id="lblTotal" class="text-success"></h3>
+                <h3 id="lblPercentage" class="text-info"></h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

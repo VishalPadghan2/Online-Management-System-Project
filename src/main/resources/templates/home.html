@@ -1,0 +1,53 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marksheet Search</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="container">
+        <h1 class="text-center my-4">Welcome to Our Website</h1>
+
+        <!-- Admin Login Button -->
+        <div class="text-right">
+            <a href="/login" class="btn btn-outline-primary">Admin Login</a>
+        </div>
+
+        <hr>
+
+        <!-- Message Section (Thymeleaf dynamic message) -->
+        <h3 class="text-center text-danger" th:text="${msg}"></h3>
+
+        <!-- Instructions -->
+        <h4 class="text-center mt-4">Enter Seat Number and Name of Mother and Click on Search Button to See Marksheet</h4>
+
+        <!-- Form Section -->
+        <div class="d-flex justify-content-center">
+            <form method="post" action="/public/find/" class="w-50">
+                <div class="form-group">
+                    <label for="seatNo">Seat Number</label>
+                    <input type="text" class="form-control" id="seatNo" name="seatNo" placeholder="Seat Number">
+                </div>
+                <div class="form-group">
+                    <label for="motherName">Mother's Name</label>
+                    <input type="text" class="form-control" id="motherName" name="motherName" placeholder="Enter Mother Name">
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">SEARCH</button>
+                    <button type="reset" class="btn btn-secondary">CLEAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

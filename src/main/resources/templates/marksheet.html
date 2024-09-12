@@ -1,0 +1,92 @@
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marksheet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <!-- Logout Button -->
+    <div class="text-right">
+        <a href="/logout" class="btn btn-outline-danger">Logout</a>
+    </div>
+
+    <hr>
+
+    <!-- Student Info Table -->
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <table class="table table-borderless">
+                <tr>
+                    <td class="text-right"><h5>Name of Student:</h5></td>
+                    <td><h5 th:text="${student.lastName + ' ' + student.firstName + ' ' + student.motherName + ' ' + student.fatherName}">Full Name</h5></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><h5>Seat No:</h5></td>
+                    <td><h5 th:text="${student.seatNo}">123456</h5></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Marksheet Form -->
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" action="/admin/marksheets/save/" class="form-inline mb-4">
+                <input type="hidden" name="idStud" th:value="${student.id}">
+                <div class="form-group mr-2">
+                    <select name="idSub" class="form-control">
+                        <option disabled selected>Select Subject</option>
+                        <option th:each="subject : ${listSubject}" th:value="${subject.id}" th:text="${subject.name}"></option>
+                    </select>
+                </div>
+                <div class="form-group mr-2">
+                    <input type="number" name="marks" min="0" class="form-control" placeholder="Marks Obtained">
+                </div>
+                <button type="submit" class="btn btn-success mr-2">SAVE</button>
+                <button type="reset" class="btn btn-secondary">CLEAR</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Marks Table -->
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Min Marks</th>
+                        <th>Max Marks</th>
+                        <th>Obtained Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="marksheetDet, iterStatus : ${listMarksheetDet}">
+                        <td th:text="${iterStatus.index + 1}" class="text-right"></td>
+                        <td th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).code}"></td>
+                        <td th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).name}"></td>
+                        <td th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).minMarks}" class="text-right"></td>
+                        <td th:text="${subjectRepo.getReferenceById(marksheetDet.idSubject).maxMarks}" class="text-right"></td>
+                        <td th:text="${marksheetDet.marks}" class="text-right"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
